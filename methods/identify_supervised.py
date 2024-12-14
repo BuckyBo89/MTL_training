@@ -39,7 +39,6 @@ def run_supervised_experiment(
         **kwargs):
     print(f'Beginning supervised evaluation with {model}...')
 
-    # 根据模型名称选择合适的模型类
     if model == 'gpt2':
         detector = GPT2ForSequenceClassification.from_pretrained(
             model,
@@ -48,7 +47,6 @@ def run_supervised_experiment(
 
         tokenizer = GPT2Tokenizer.from_pretrained(
             model, cache_dir=cache_dir)
-        # 添加填充标记
         # tokenizer.pad_token = tokenizer.eos_token
     else:
         detector = AutoModelForSequenceClassification.from_pretrained(
@@ -264,9 +262,8 @@ def fine_tune_model(
         pos_bit=1,
         num_labels=2,
         epochs=3,
-        save_path=None,  # 将 save_path 设置为可选参数
+        save_path=None,  
         seed=42):
-    # 使用生成器设置随机种子，确保每次打乱的顺序相同
     g = torch.Generator()
     g.manual_seed(seed)
 
@@ -299,8 +296,8 @@ def fine_tune_model(
     train_acc_list = []
     test_acc_list = []
 
-    best_acc = 0.0  # 用于跟踪最高的测试准确率
-    best_model_weights = None  # 用于保存最佳模型权重
+    best_acc = 0.0  
+    best_model_weights = None 
 
     for epoch in range(epochs):
         total_loss = 0
@@ -343,7 +340,7 @@ def fine_tune_model(
             train_acc_list.append(acc_train)
             test_acc_list.append(acc_test)
 
-            # 保存最佳模型
+            
             if acc_test > best_acc:
                 best_acc = acc_test
                 best_model_weights = model.state_dict()
@@ -368,7 +365,6 @@ def fine_tune_model(
     plt.savefig('accuracy_plot.png')
     plt.show()
 
-    # 加载最佳模型权重
     if best_model_weights:
         model.load_state_dict(best_model_weights)
         print("Best model loaded for further evaluation or inference.")
