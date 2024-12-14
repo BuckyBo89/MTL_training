@@ -64,7 +64,6 @@ if __name__ == '__main__':
 
     print(f'Loading dataset for {args.task} with dataset name: {args.dataset}...')
 
-    # 加载数据集
     file_path = f'file_to_multitude/{args.dataset}.csv'
     if args.task == "task1":
         data = dataset_loader_attribution.load_custom_dataset_task1(file_path)
