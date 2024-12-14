@@ -42,7 +42,6 @@ def apply_homoglyph_attack(text, attack_rate=0.3):
             attacked_text.append(char)
     return ''.join(attacked_text)
 
-# 示例文本
 original_text = "This is an example of homoglyph attack."
 attacked_text = apply_homoglyph_attack(original_text, attack_rate=0.5)
 print("Original text:", original_text)
