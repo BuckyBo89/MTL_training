@@ -19,13 +19,11 @@ def set_seed(seed):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    # 保证每个操作都是确定性的
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     torch.use_deterministic_algorithms(True)
 
 if __name__ == '__main__':
-    # 在主函数开始时立即设置随机种子
     set_seed(42)
     
     parser = argparse.ArgumentParser()
