@@ -27,7 +27,6 @@ def set_seed(seed):
 
 
 if __name__ == '__main__':
-    # 在主函数开始时立即设置随机种子
     set_seed(42)
 
     parser = argparse.ArgumentParser()
