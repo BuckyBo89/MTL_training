@@ -306,7 +306,6 @@ def load_custom_dataset_task2(file_path):
     f = pd.read_csv(file_path)
     f = f.drop(columns=["language", "length", "source", "label"])
     f['multi_label_encoded'], unique_labels = pd.factorize(f['multi_label'])
-    # 打乱数据索引
     f = f.sample(frac=1, random_state=0).reset_index(drop=True)
     data_new = {
         'train': {
@@ -361,11 +360,7 @@ def load_custom_dataset_task1(file_path):
 def load_identify_model_dataset(file_path):
     f = pd.read_csv(file_path)
     f = f.drop(columns=["language", "length", "source", "label"])
-
-    # 根据条件对multi_label进行编码
     f['multi_label_encoded'] = f['multi_label'].apply(lambda x: 1 if x == 'vicuna-13b' else 0)
-
-    # 打乱数据索引
     f = f.sample(frac=1, random_state=0).reset_index(drop=True)
 
     data_new = {
