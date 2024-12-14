@@ -39,7 +39,7 @@ def run_supervised_experiment(
         **kwargs):
     print(f'Beginning supervised evaluation with {model}...')
 
-    # 根据模型名称选择合适的模型类
+    
     if model == 'gpt2':
         detector = GPT2ForSequenceClassification.from_pretrained(
             model,
@@ -48,7 +48,7 @@ def run_supervised_experiment(
 
         tokenizer = GPT2Tokenizer.from_pretrained(
             model, cache_dir=cache_dir)
-        # 添加填充标记
+        
         # tokenizer.pad_token = tokenizer.eos_token
     else:
         detector = AutoModelForSequenceClassification.from_pretrained(
@@ -264,9 +264,9 @@ def fine_tune_model(
         pos_bit=1,
         num_labels=2,
         epochs=3,
-        save_path=None,  # 将 save_path 设置为可选参数
+        save_path=None,  
         seed=42):
-    # 使用生成器设置随机种子，确保每次打乱的顺序相同
+    
     g = torch.Generator()
     g.manual_seed(seed)
 
@@ -303,8 +303,8 @@ def fine_tune_model(
     train_recall_list = []
     test_recall_list = []
 
-    best_f1 = 0.0  # 用于跟踪最高的F1分数
-    best_model_weights = None  # 用于保存最佳模型权重
+    best_f1 = 0.0  
+    best_model_weights = None  
 
     for epoch in range(epochs):
         total_loss = 0
@@ -351,16 +351,15 @@ def fine_tune_model(
             train_recall_list.append(recall_train)
             test_recall_list.append(recall_test)
 
-            # 保存最佳模型（基于 F1 分数）
+            
             if f1_test > best_f1:
                 best_f1 = f1_test
                 best_model_weights = model.state_dict()
 
-                if save_path:  # 检查是否指定了保存路径
-                    # 创建保存路径的目录（包括父目录），如果它们不存在
+                if save_path:  
                     os.makedirs(save_path, exist_ok=True)
 
-                    # 保存模型权重和配置文件
+                    
                     torch.save(best_model_weights, f"{save_path}/best_model_weights.pt")
                     model.save_pretrained(save_path)
                     tokenizer.save_pretrained(save_path)
@@ -382,7 +381,6 @@ def fine_tune_model(
     plt.savefig('metrics_plot.png')
     plt.show()
 
-    # 加载最佳模型权重
     if best_model_weights:
         model.load_state_dict(best_model_weights)
         print("Best model loaded based on F1 score for further evaluation or inference.")
